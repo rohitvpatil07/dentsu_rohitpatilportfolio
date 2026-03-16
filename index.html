@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rohit V. Patil — Portfolio · dentsu Application</title>
+<style>
+:root {
+  --d-red: #FF0028;
+  --d-black: #0A0A0A;
+  --d-gray: #F2F2F0;
+  --d-mid: #6B6B6B;
+  --ease: cubic-bezier(0.16,1,0.3,1);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #fafafa; color: #0A0A0A; }
+
+@keyframes slideUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+@keyframes slideIn { from { opacity:0; transform:translateX(-20px); } to { opacity:1; transform:translateX(0); } }
+@keyframes countUp { from { opacity:0; transform:scale(0.8); } to { opacity:1; transform:scale(1); } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes fadein { from { opacity:0; } to { opacity:1; } }
+
+.hero {
+  background: var(--d-black); color: white;
+  padding: 60px 64px 52px; position: relative; overflow: hidden;
+}
+.hero-grid-bg {
+  position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.03) 39px, rgba(255,255,255,0.03) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.03) 39px, rgba(255,255,255,0.03) 40px);
+  pointer-events: none;
+}
+.hero-accent { position: absolute; top:0; right:64px; width:3px; height:100%; background: var(--d-red); }
+.hero-tag { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--d-red); margin-bottom:12px; font-weight:500; animation: slideIn 0.6s var(--ease) both; }
+.hero-name { font-size:72px; font-weight:700; line-height:.95; color:white; letter-spacing:-2px; animation: slideUp 0.7s 0.1s var(--ease) both; }
+.hero-name span { color: var(--d-red); }
+.hero-rule { width:56px; height:4px; background:var(--d-red); margin:18px 0; animation: barGrow 0.6s 0.3s var(--ease) both; transform-origin:left; }
+.hero-sub { font-size:16px; color:rgba(255,255,255,0.6); animation: slideUp 0.7s 0.2s var(--ease) both; margin-bottom:24px; max-width:520px; line-height:1.6; }
+.hero-chips { display:flex; gap:8px; flex-wrap:wrap; animation: slideUp 0.7s 0.3s var(--ease) both; }
+.hero-chip { font-size:12px; padding:5px 12px; border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.7); border-radius:2px; transition:all .2s; cursor:default; }
+.hero-chip:hover { border-color:var(--d-red); color:white; }
+.hero-meta { margin-top:24px; padding-top:20px; border-top:0.5px solid rgba(255,255,255,0.12); display:flex; gap:24px; flex-wrap:wrap; font-size:13px; color:rgba(255,255,255,0.5); animation: slideUp 0.7s 0.4s var(--ease) both; }
+.hero-meta span::before { content:''; display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--d-red); margin-right:8px; vertical-align:middle; }
+
+nav { display:flex; border-bottom:1px solid #E5E5E5; padding:0 64px; position:sticky; top:0; z-index:100; background:white; }
+.nav-btn { font-size:12px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; padding:16px 20px; background:transparent; border:none; border-bottom:2px solid transparent; color:#6B6B6B; cursor:pointer; margin-bottom:-1px; transition:all .2s; font-family:inherit; }
+.nav-btn.active { color:var(--d-red); border-bottom-color:var(--d-red); }
+.nav-btn:hover:not(.active) { color:#0A0A0A; }
+
+.section { display:none; padding:52px 64px; }
+.section.active { display:block; animation: fadein 0.35s var(--ease); }
+.sec-eyebrow { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--d-red); font-weight:600; margin-bottom:8px; }
+.sec-title { font-size:32px; font-weight:700; margin-bottom:32px; letter-spacing:-0.5px; }
+
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:32px; }
+.about-card { background:#F7F7F5; border-radius:4px; padding:28px; border-left:3px solid transparent; transition:border-color .25s, transform .25s var(--ease); }
+.about-card:hover { border-left-color:var(--d-red); transform:translateX(6px); }
+.about-card h3 { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--d-red); margin-bottom:10px; font-weight:600; }
+.about-card p { font-size:14px; color:var(--d-mid); line-height:1.7; }
+
+.big-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:40px; }
+.big-stat { background:white; border:1px solid #E5E5E5; border-radius:4px; padding:24px 20px; text-align:center; cursor:default; transition:all .2s var(--ease); }
+.big-stat:hover { border-color:var(--d-red); transform:translateY(-4px); box-shadow:0 8px 24px rgba(255,0,40,.08); }
+.big-stat .num { font-size:36px; font-weight:700; color:var(--d-red); line-height:1; }
+.big-stat .lbl { font-size:11px; color:var(--d-mid); margin-top:6px; text-transform:uppercase; letter-spacing:.5px; }
+
+.stat-row { display:flex; align-items:center; gap:16px; margin-bottom:16px; }
+.stat-label { font-size:13px; min-width:200px; color:var(--d-mid); }
+.stat-bar-wrap { flex:1; background:#F0F0EE; border-radius:2px; height:5px; overflow:hidden; }
+.stat-bar { height:100%; background:var(--d-red); border-radius:2px; transform-origin:left; animation: barGrow 1s var(--ease) both; }
+.stat-val { font-size:14px; font-weight:700; min-width:44px; text-align:right; color:var(--d-red); }
+
+.filter-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+.filter-btn { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; font-weight:600; padding:6px 14px; border:1px solid #D0D0D0; background:transparent; color:var(--d-mid); cursor:pointer; border-radius:2px; transition:all .2s; font-family:inherit; }
+.filter-btn.active { background:var(--d-red); color:white; border-color:var(--d-red); }
+
+.case-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.case-card { background:white; border:1px solid #E5E5E5; border-radius:4px; overflow:hidden; cursor:pointer; transition:all .25s var(--ease); position:relative; }
+.case-card::before { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:var(--d-red); transform:scaleX(0); transform-origin:left; transition:transform .3s var(--ease); }
+.case-card:hover { transform:translateY(-5px); box-shadow:0 12px 32px rgba(0,0,0,.1); }
+.case-card:hover::before { transform:scaleX(1); }
+.case-card.hidden { display:none; }
+.case-top { background:var(--d-black); padding:20px 22px; }
+.case-brand { font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:var(--d-red); margin-bottom:6px; }
+.case-title { font-size:15px; font-weight:600; color:white; line-height:1.4; }
+.case-body { padding:18px 22px; }
+.case-desc { font-size:13px; color:var(--d-mid); line-height:1.65; margin-bottom:14px; }
+.case-metrics { display:flex; gap:10px; flex-wrap:wrap; }
+.metric-pill { background:#F7F7F5; border-radius:2px; padding:8px 12px; }
+.metric-val { font-size:18px; font-weight:700; color:var(--d-red); }
+.metric-lbl { font-size:10px; color:var(--d-mid); margin-top:2px; text-transform:uppercase; letter-spacing:.5px; }
+.case-tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:12px; }
+.case-tag { font-size:11px; padding:4px 10px; border:1px solid #E5E5E5; color:var(--d-mid); border-radius:2px; }
+
+.skill-cat { margin-bottom:24px; }
+.skill-cat-title { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--d-red); margin-bottom:12px; font-weight:600; }
+.skill-pills { display:flex; flex-wrap:wrap; gap:10px; }
+.skill-pill { font-size:13px; padding:8px 16px; border:1px solid #D5D5D5; border-radius:2px; color:#0A0A0A; background:transparent; cursor:default; transition:all .2s; position:relative; overflow:hidden; }
+.skill-pill::after { content:''; position:absolute; left:0; bottom:0; height:2px; width:100%; background:var(--d-red); transform:scaleX(0); transform-origin:left; transition:transform .25s var(--ease); }
+.skill-pill:hover { color:var(--d-red); border-color:rgba(255,0,40,.3); }
+.skill-pill:hover::after { transform:scaleX(1); }
+
+.platform-bar { background:var(--d-black); color:white; border-radius:4px; padding:24px 28px; margin-top:24px; }
+.platform-bar h3 { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--d-red); margin-bottom:12px; font-weight:600; }
+.platform-icons { display:flex; flex-wrap:wrap; gap:10px; }
+.platform-icon { font-size:12px; padding:7px 14px; border:1px solid rgba(255,255,255,.15); color:rgba(255,255,255,.7); border-radius:2px; transition:all .2s; cursor:default; }
+.platform-icon:hover { border-color:var(--d-red); color:white; }
+
+.timeline { position:relative; padding-left:24px; }
+.tl-line { position:absolute; left:6px; top:10px; bottom:10px; width:1px; background:#E0E0E0; }
+.tl-fill { position:absolute; left:6px; top:10px; width:1px; background:var(--d-red); height:0%; transition:height 1.4s var(--ease); }
+.tl-item { position:relative; margin-bottom:36px; animation: slideIn 0.5s var(--ease) both; }
+.tl-dot { position:absolute; left:-20px; top:5px; width:10px; height:10px; border-radius:50%; background:var(--d-red); transition:transform .2s; }
+.tl-item:hover .tl-dot { transform:scale(1.8); }
+.tl-head { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px; flex-wrap:wrap; gap:6px; }
+.tl-role { font-size:16px; font-weight:700; }
+.tl-date { font-size:11px; color:var(--d-red); padding:3px 10px; border:1px solid rgba(255,0,40,.3); border-radius:2px; white-space:nowrap; font-weight:600; letter-spacing:.5px; }
+.tl-org { font-size:13px; color:var(--d-mid); margin-bottom:8px; }
+.tl-bullets { list-style:none; }
+.tl-bullets li { font-size:13px; color:var(--d-mid); line-height:1.65; padding-left:14px; position:relative; margin-bottom:4px; }
+.tl-bullets li::before { content:'—'; position:absolute; left:0; color:var(--d-red); font-size:12px; }
+
+.edu-card { background:white; border:1px solid #E5E5E5; border-radius:4px; padding:22px 28px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:flex-start; transition:all .2s var(--ease); }
+.edu-card:hover { border-color:rgba(255,0,40,.3); transform:translateX(5px); }
+.edu-card h3 { font-size:17px; font-weight:700; }
+.edu-card p { font-size:13px; color:var(--d-mid); margin-top:4px; }
+.award-badge { font-size:11px; padding:5px 12px; background:var(--d-red); color:white; border-radius:2px; white-space:nowrap; font-weight:700; letter-spacing:.5px; }
+.cert-strip { background:var(--d-black); color:rgba(255,255,255,.7); border-radius:4px; padding:22px 28px; margin-top:12px; }
+.cert-strip h3 { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--d-red); margin-bottom:10px; font-weight:600; }
+.cert-strip p { font-size:14px; line-height:1.8; }
+
+footer { background:var(--d-black); color:rgba(255,255,255,.5); text-align:center; padding:32px; font-size:13px; margin-top:0; }
+footer strong { color:white; }
+footer span { color:var(--d-red); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-accent"></div>
+  <div class="hero-tag">Account management portfolio · dentsu application</div>
+  <div class="hero-name">Rohit<span>.</span><br>Patil</div>
+  <div class="hero-rule"></div>
+  <div class="hero-sub">Creative digital account management professional with 6 years driving multi-channel campaigns for global brands.</div>
+  <div class="hero-chips">
+    <span class="hero-chip">Client Management</span>
+    <span class="hero-chip">Social & Digital</span>
+    <span class="hero-chip">Brief Management</span>
+    <span class="hero-chip">KPI Reporting</span>
+    <span class="hero-chip">SEO / ORM</span>
+    <span class="hero-chip">AI Tools</span>
+    <span class="hero-chip">MSc Cranfield · Directors Award</span>
+  </div>
+  <div class="hero-meta">
+    <span>Mumbai, India</span>
+    <span>+91 8169585896</span>
+    <span>rohitvijaypatil2@gmail.com</span>
+    <span>Available immediately</span>
+  </div>
+</div>
+
+<nav>
+  <button class="nav-btn active" onclick="showTab('about',this)">About</button>
+  <button class="nav-btn" onclick="showTab('results',this)">Results</button>
+  <button class="nav-btn" onclick="showTab('cases',this)">Case studies</button>
+  <button class="nav-btn" onclick="showTab('skills',this)">Skills</button>
+  <button class="nav-btn" onclick="showTab('timeline',this)">Experience</button>
+  <button class="nav-btn" onclick="showTab('education',this)">Education</button>
+</nav>
+
+<div id="tab-about" class="section active">
+  <div class="sec-eyebrow">Profile</div>
+  <div class="sec-title">Account manager · creative digital</div>
+  <div class="about-grid">
+    <div class="about-card"><h3>Who I am</h3><p>Account management professional with 6 years in digital creative environments — managing client relationships, multi-channel campaign delivery and creative studio collaboration for global brands.</p></div>
+    <div class="about-card"><h3>What I bring to dentsu</h3><p>Agency-side experience at DViO Digital and XIRCLS Media. Skilled in brief management, stakeholder communication, SEO/ORM coordination and influencer & vendor management at scale.</p></div>
+    <div class="about-card"><h3>How I work</h3><p>Detail-critical and deadline-driven. I own briefs from intake through delivery — working cross-functionally with creative, tech, SEO and media teams. Fast to adapt to new platform features and digital trends.</p></div>
+    <div class="about-card"><h3>Education edge</h3><p>MSc Strategic Marketing, Cranfield University — Directors Award 2024. Strong grounding in brand strategy, consumer insight and marketing analytics applied daily in account management.</p></div>
+  </div>
+</div>
+
+<div id="tab-results" class="section">
+  <div class="sec-eyebrow">Measurable impact</div>
+  <div class="sec-title">Results at a glance</div>
+  <div class="big-stats">
+    <div class="big-stat"><div class="num" data-target="28">0%</div><div class="lbl">YoY revenue growth</div></div>
+    <div class="big-stat"><div class="num" data-target="20">0%</div><div class="lbl">CPC reduction</div></div>
+    <div class="big-stat"><div class="num" data-target="13">0%</div><div class="lbl">Engagement uplift</div></div>
+    <div class="big-stat"><div class="num" data-target="30">0%</div><div class="lbl">Brand visibility growth</div></div>
+  </div>
+  <div class="sec-eyebrow" style="margin-bottom:14px;">Performance breakdown</div>
+  <div class="stat-row"><div class="stat-label">Revenue growth (FootAsylum)</div><div class="stat-bar-wrap"><div class="stat-bar" style="width:28%;animation-delay:.1s"></div></div><div class="stat-val">28%</div></div>
+  <div class="stat-row"><div class="stat-label">Repeat customer revenue ↑</div><div class="stat-bar-wrap"><div class="stat-bar" style="width:12%;animation-delay:.2s"></div></div><div class="stat-val">12%</div></div>
+  <div class="stat-row"><div class="stat-label">CTR improvement (DViO)</div><div class="stat-bar-wrap"><div class="stat-bar" style="width:9%;animation-delay:.3s"></div></div><div class="stat-val">9%</div></div>
+  <div class="stat-row"><div class="stat-label">CPC reduction (DViO)</div><div class="stat-bar-wrap"><div class="stat-bar" style="width:20%;animation-delay:.4s"></div></div><div class="stat-val">20%</div></div>
+  <div class="stat-row"><div class="stat-label">Engagement growth (XIRCLS)</div><div class="stat-bar-wrap"><div class="stat-bar" style="width:28%;animation-delay:.5s"></div></div><div class="stat-val">28%</div></div>
+  <div class="stat-row"><div class="stat-label">Brand visibility (TEFAL)</div><div class="stat-bar-wrap"><div class="stat-bar" style="width:30%;animation-delay:.6s"></div></div><div class="stat-val">30%</div></div>
+</div>
+
+<div id="tab-cases" class="section">
+  <div class="sec-eyebrow">Work</div>
+  <div class="sec-title">Key case studies</div>
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="filterCases('all',this)">All</button>
+    <button class="filter-btn" onclick="filterCases('agency',this)">Agency</button>
+    <button class="filter-btn" onclick="filterCases('brand',this)">Brand</button>
+    <button class="filter-btn" onclick="filterCases('consultancy',this)">Consultancy</button>
+  </div>
+  <div class="case-grid">
+    <div class="case-card" data-cat="brand"><div class="case-top"><div class="case-brand">FootAsylum · 2022–2024</div><div class="case-title">Multi-channel account management at scale</div></div><div class="case-body"><div class="case-desc">Primary account manager for a high-volume fashion retail brand — managing concurrent briefs across social, digital, email and paid media. Produced KPI dashboards and mentored junior Digital Media Executives.</div><div class="case-metrics"><div class="metric-pill"><div class="metric-val">28%</div><div class="metric-lbl">YoY revenue</div></div><div class="metric-pill"><div class="metric-val">12%</div><div class="metric-lbl">Repeat revenue ↑</div></div></div><div class="case-tags"><span class="case-tag">Brief management</span><span class="case-tag">Studio collaboration</span><span class="case-tag">KPI reporting</span><span class="case-tag">AI tools</span></div></div></div>
+    <div class="case-card" data-cat="agency"><div class="case-top"><div class="case-brand">DViO Digital · 2022</div><div class="case-title">Digital agency account management</div></div><div class="case-body"><div class="case-desc">Managed two client accounts end-to-end in a digital creative agency — coordinating with SEO and tech teams on website updates, ORM, and paid media campaign performance.</div><div class="case-metrics"><div class="metric-pill"><div class="metric-val">9%</div><div class="metric-lbl">CTR improvement</div></div><div class="metric-pill"><div class="metric-val">20%</div><div class="metric-lbl">CPC reduction</div></div><div class="metric-pill"><div class="metric-val">13%</div><div class="metric-lbl">Engagement ↑</div></div></div><div class="case-tags"><span class="case-tag">SEO / ORM</span><span class="case-tag">Website management</span><span class="case-tag">Paid media</span></div></div></div>
+    <div class="case-card" data-cat="consultancy"><div class="case-top"><div class="case-brand">TEFAL UK / Group SEB · 2023</div><div class="case-title">360° integrated campaign strategy</div></div><div class="case-body"><div class="case-desc">Led a live agency-style engagement for Group SEB — managed the full brief, coordinated a multi-disciplinary team and delivered a 360° campaign strategy across all channels within a simulated crisis scenario.</div><div class="case-metrics"><div class="metric-pill"><div class="metric-val">30%</div><div class="metric-lbl">Brand visibility</div></div><div class="metric-pill"><div class="metric-val">360°</div><div class="metric-lbl">Campaign delivery</div></div></div><div class="case-tags"><span class="case-tag">Integrated strategy</span><span class="case-tag">Crisis comms</span><span class="case-tag">Stakeholder management</span></div></div></div>
+    <div class="case-card" data-cat="agency"><div class="case-top"><div class="case-brand">XIRCLS Media · 2021</div><div class="case-title">Social content & influencer management</div></div><div class="case-body"><div class="case-desc">Managed content production for global hospitality brands across social and editorial channels. Liaised with vendors, influencers and partners to execute campaigns end to end.</div><div class="case-metrics"><div class="metric-pill"><div class="metric-val">28%</div><div class="metric-lbl">Engagement growth</div></div></div><div class="case-tags"><span class="case-tag">Influencer management</span><span class="case-tag">Vendor liaison</span><span class="case-tag">Social content</span></div></div></div>
+    <div class="case-card" data-cat="consultancy"><div class="case-top"><div class="case-brand">JACOBS International · 2023</div><div class="case-title">Brand growth & campaign roadmap</div></div><div class="case-body"><div class="case-desc">Led a 4-person team to deliver a full brand growth and campaign roadmap for an international client — brief management, team coordination and stakeholder presentation.</div><div class="case-metrics"><div class="metric-pill"><div class="metric-val">15%</div><div class="metric-lbl">Market share target</div></div></div><div class="case-tags"><span class="case-tag">Brand strategy</span><span class="case-tag">Team leadership</span><span class="case-tag">Client presentation</span></div></div></div>
+    <div class="case-card" data-cat="brand"><div class="case-top"><div class="case-brand">ABRO Merchandise · 2018–2022</div><div class="case-title">Founder-led brand & content management</div></div><div class="case-body"><div class="case-desc">Managed all client briefs — social media, digital assets and event content from brief to delivery across digital and physical channels over 4 years.</div><div class="case-metrics"><div class="metric-pill"><div class="metric-val">£35K</div><div class="metric-lbl">Revenue generated</div></div></div><div class="case-tags"><span class="case-tag">Content strategy</span><span class="case-tag">Brand management</span><span class="case-tag">Event coverage</span></div></div></div>
+  </div>
+</div>
+
+<div id="tab-skills" class="section">
+  <div class="sec-eyebrow">Capabilities</div>
+  <div class="sec-title">Core skills</div>
+  <div class="skill-cat"><div class="skill-cat-title">Account & client management</div><div class="skill-pills"><span class="skill-pill">Client relationship management</span><span class="skill-pill">Brief management</span><span class="skill-pill">Stakeholder communication</span><span class="skill-pill">Vendor & influencer liaison</span><span class="skill-pill">Team mentoring</span></div></div>
+  <div class="skill-cat"><div class="skill-cat-title">Campaign & digital execution</div><div class="skill-pills"><span class="skill-pill">Multi-channel campaign delivery</span><span class="skill-pill">Social media management</span><span class="skill-pill">KPI reporting & dashboards</span><span class="skill-pill">SEO / ORM coordination</span><span class="skill-pill">Website content management</span><span class="skill-pill">Online reputation management</span></div></div>
+  <div class="skill-cat"><div class="skill-cat-title">Tools & technology</div><div class="skill-pills"><span class="skill-pill">ChatGPT</span><span class="skill-pill">Midjourney</span><span class="skill-pill">Jasper AI</span><span class="skill-pill">Adobe Creative Suite</span><span class="skill-pill">Microsoft Office Suite</span><span class="skill-pill">CRM / Predictive analytics</span></div></div>
+  <div class="platform-bar"><h3>Platforms</h3><div class="platform-icons"><span class="platform-icon">Instagram</span><span class="platform-icon">Facebook</span><span class="platform-icon">LinkedIn</span><span class="platform-icon">Twitter / X</span><span class="platform-icon">YouTube</span><span class="platform-icon">Snapchat</span><span class="platform-icon">Pinterest</span><span class="platform-icon">Google Ads</span><span class="platform-icon">Meta Ads</span><span class="platform-icon">Email / CRM</span></div></div>
+</div>
+
+<div id="tab-timeline" class="section">
+  <div class="sec-eyebrow">Career history</div>
+  <div class="sec-title">Experience timeline</div>
+  <div class="timeline">
+    <div class="tl-line"></div>
+    <div class="tl-fill" id="tl-fill"></div>
+    <div class="tl-item"><div class="tl-dot"></div><div class="tl-head"><div class="tl-role">Account & Brand Marketing Manager · FootAsylum</div><div class="tl-date">Nov 2022 – Apr 2024</div></div><div class="tl-org">Milton Keynes, UK</div><ul class="tl-bullets"><li>Primary account manager for multi-channel campaigns across social, digital, email and paid media</li><li>KPI dashboards contributing to 28% YoY revenue growth and 12% repeat customer uplift</li><li>Mentored junior Digital Media Executives and managed studio timing plans</li><li>Applied AI tools (ChatGPT, CRM analytics) to streamline briefing and production workflows</li></ul></div>
+    <div class="tl-item" style="animation-delay:.1s"><div class="tl-dot"></div><div class="tl-head"><div class="tl-role">Account Strategy Associate · DViO Digital</div><div class="tl-date">May – Jul 2022</div></div><div class="tl-org">Pune, India · Digital creative agency</div><ul class="tl-bullets"><li>Managed two client accounts end-to-end — briefs, studio coordination, feedback rounds</li><li>Coordinated with SEO and tech teams on website updates and ORM</li><li>Improved CTR by 9%, reduced CPC by 20%, delivered 13% engagement uplift</li></ul></div>
+    <div class="tl-item" style="animation-delay:.2s"><div class="tl-dot"></div><div class="tl-head"><div class="tl-role">PR & Social Content Manager · XIRCLS Media</div><div class="tl-date">Oct – Dec 2021</div></div><div class="tl-org">Mumbai, India</div><ul class="tl-bullets"><li>Managed content production for global hospitality brands across social and editorial channels</li><li>Liaised with vendors, influencers and partner firms for campaign execution end to end</li><li>Achieved 28% engagement growth through disciplined workload management</li></ul></div>
+    <div class="tl-item" style="animation-delay:.3s"><div class="tl-dot"></div><div class="tl-head"><div class="tl-role">Co-Founder · ABRO Merchandise</div><div class="tl-date">Nov 2018 – Aug 2022</div></div><div class="tl-org">Mumbai, India · Entrepreneurial</div><ul class="tl-bullets"><li>Managed all client briefs — social, digital assets and event content from brief to delivery</li><li>Generated £35,000 in revenue over 4 years</li></ul></div>
+  </div>
+</div>
+
+<div id="tab-education" class="section">
+  <div class="sec-eyebrow">Education & credentials</div>
+  <div class="sec-title">Qualifications</div>
+  <div class="edu-card"><div><h3>MSc, Strategic Marketing</h3><p>Cranfield University, UK · 2022–2024</p></div><span class="award-badge">Directors Award 2024</span></div>
+  <div class="edu-card"><div><h3>B.Tech, Civil Engineering</h3><p>MIT WPU, Pune, India · 2018–2022</p></div></div>
+  <div class="cert-strip"><h3>Certifications</h3><p>BCG: Strategy Consulting · LBS: Brand Management · Yale: Financial Markets · MRS Certification · SAS: Statistical Thinking</p></div>
+</div>
+
+<footer>
+  <strong>Rohit V. Patil</strong> <span>·</span> rohitvijaypatil2@gmail.com <span>·</span> +91 8169585896 <span>·</span> Mumbai, India <span>·</span> Available immediately
+</footer>
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'results') animateCounters();
+  if (id === 'timeline') animateTimeline();
+}
+function filterCases(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.case-card').forEach(c => {
+    c.classList.toggle('hidden', cat !== 'all' && c.dataset.cat !== cat);
+  });
+}
+function animateCounters() {
+  document.querySelectorAll('[data-target]').forEach((el, i) => {
+    const target = parseInt(el.dataset.target);
+    let current = 0;
+    setTimeout(() => {
+      const timer = setInterval(() => {
+        current = Math.min(current + Math.ceil(target / 30), target);
+        el.textContent = current + '%';
+        if (current >= target) clearInterval(timer);
+      }, 30);
+    }, i * 80);
+  });
+}
+function animateTimeline() {
+  const fill = document.getElementById('tl-fill');
+  if (fill) setTimeout(() => { fill.style.height = '90%'; }, 200);
+}
+</script>
+</body>
+</html>
